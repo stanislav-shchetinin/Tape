@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
     std::string output_file = argv[2];
     std::string config_file = argv[3];
 
-    std::cout << input_file << " " << output_file << " " << config_file << std::endl;
+    std::cout << input_file << " " << output_file << " " << config_file << " " << std::endl;
 
     using json = nlohmann::json;
     std::ifstream f("../" + config_file);
