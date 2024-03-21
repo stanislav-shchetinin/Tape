@@ -8,7 +8,6 @@ Config read_config_file(const std::string& config_file) {
     using json = nlohmann::json;
     std::ifstream f("../" + config_file);
     json data = json::parse(f);
-    f.close();
     return Config{
             data["recording_delay"],
             data["read_delay"],

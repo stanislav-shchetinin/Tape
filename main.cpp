@@ -1,5 +1,6 @@
 #include <iostream>
 #include "config.h"
+#include "Tape.h"
 
 void argc_check(int argc) {
     if (argc != 4) {
@@ -18,7 +19,9 @@ int main(int argc, char* argv[]) {
 
     Config config = read_config_file(config_file);
 
-    std::cout << config.recording_delay << std::endl;
+    Tape tape(config, "../" + input_file);
+
+
 
     return 0;
 }

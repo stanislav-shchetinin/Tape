@@ -10,10 +10,10 @@
 #include "json.hpp"
 
 struct Config {
-    int recording_delay;
-    int read_delay;
-    int tape_rewind_delay;
-    int tape_shift_delay;
+    const int recording_delay;
+    const int read_delay;
+    const int tape_rewind_delay;
+    const int tape_shift_delay;
 };
 
 Config read_config_file(const std::string& config_file);
