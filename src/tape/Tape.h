@@ -21,6 +21,7 @@ public:
     void write(int);
     void shift_pos_left();
     void shift_pos_right();
+    void rewind();
     ~Tape() {
         file.close();
     }

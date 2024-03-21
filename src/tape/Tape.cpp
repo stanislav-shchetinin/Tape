@@ -84,3 +84,8 @@ void Tape::write(int x) {
     file << x;
     file.seekp(cur_pos);
 }
+
+void Tape::rewind() {
+    file.seekp(0);
+    cur_pos = 0;
+}
