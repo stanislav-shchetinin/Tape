@@ -21,7 +21,5 @@ int main(int argc, char* argv[]) {
 
     Tape tape(config, "../" + input_file);
 
-
-
     return 0;
 }

@@ -10,15 +10,15 @@
 
 class Tape {
 private:
+    static int tapes_count;
     const Config config;
     int cur_pos{};
     std::fstream file;
 public:
     Tape(const Config& config,
-         const std::string& tape_file): config(config) {
-        file.open(tape_file);
-    }
+         const std::string& tape_file);
     int read();
+    void write(int);
     void shift_pos_left();
     void shift_pos_right();
     ~Tape() {
