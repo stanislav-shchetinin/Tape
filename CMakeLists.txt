@@ -9,4 +9,7 @@ add_executable(Yadro main.cpp
         src/config/config.h
         src/config/config.cpp
         src/tape/Tape.cpp
-        src/tape/Tape.h)
+        src/tape/Tape.h
+        src/sort/TapeSort.cpp
+        src/sort/TapeSort.h
+)

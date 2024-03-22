@@ -3,45 +3,57 @@
 //
 #include "Tape.h"
 
-#define MAX_DIGIT_IN_INT 10
-
 int Tape::tapes_count = 0;
 
-Tape::Tape(const Config& config,
-     const std::string& tape_file): config(config), file_name(tape_file) {
-    ++tapes_count;
-    std::ifstream from(tape_file);
-    std::string name_tape_file = "../tmp/" + std::to_string(tapes_count);
+Tape::Tape(const Config& config)
+        : config(config)
+        , num_tape(++tapes_count){
 
+    std::string name_tape_file = "../tmp/" + std::to_string(tapes_count);
+    file_name = name_tape_file;
     std::ofstream of(name_tape_file);
     of.close();
 
     file.open(name_tape_file);
+}
 
+Tape::Tape(const Config& config,
+     const std::string& tape_file) : Tape(config) {
+
+    std::ifstream from(tape_file);
     std::string cur_num;
 
     while (from >> cur_num) {
-        std::string spaces(MAX_DIGIT_IN_INT - cur_num.size() + 1, ' ');
+        std::string spaces(OFFSET - cur_num.size(), ' ');
         cur_num += spaces;
         file << cur_num;
     }
 
+    file.clear();
     file.seekp(0);
+}
 
+Tape::Tape(const Config &config, size_t n) : Tape(config) {
+    std::string spaces(n, ' ');
+    for (size_t i = 0; i < n; ++i) {
+        if (i % OFFSET == 0) spaces[i] = '0';
+    }
+    file << spaces;
+    file.clear();
+    file.seekp(0);
 }
 
 Tape::Tape(const Tape &other)
         : config(other.config)
         , cur_pos(other.cur_pos)
         , file(other.file_name)
-        , file_name(other.file_name) {
+        , num_tape(other.num_tape){
     file.seekp(cur_pos);
 }
 
 void Tape::shift_pos_left() {
     if (cur_pos == 0) return;
     bool is_digit = false;
-    file.clear();
     for (file.seekp(--cur_pos); cur_pos > 0; --cur_pos) {
 
         char c;
@@ -55,12 +67,13 @@ void Tape::shift_pos_left() {
         file.seekp(cur_pos);
 
     }
+    file.clear();
+    file.seekp(cur_pos);
 }
 
 void Tape::shift_pos_right() {
     bool is_space = false;
     int old_pos = cur_pos;
-    file.clear();
     for (; file.peek() != EOF; ++cur_pos) {
 
         char c;
@@ -76,24 +89,52 @@ void Tape::shift_pos_right() {
     }
     if (file.peek() == EOF) {
         cur_pos = old_pos;
-        file.clear();
-        file.seekp(cur_pos);
     }
+    file.clear();
+    file.seekp(cur_pos);
 }
 
-int Tape::read() {
+int Tape::read() const{
     int x;
     file >> x;
+    file.clear();
     file.seekp(cur_pos);
     return x;
 }
 
 void Tape::write(int x) {
+    std::string spaces(OFFSET, ' ');
+    file << spaces;
+    file.seekp(cur_pos);
     file << x;
+    file.clear();
     file.seekp(cur_pos);
 }
 
 void Tape::rewind() {
+    file.clear();
     file.seekp(0);
     cur_pos = 0;
+}
+
+size_t Tape::get_len() const{
+    file.seekg(0, std::ios_base::end);
+    size_t size = file.tellg();
+    file.clear();
+    file.seekp(cur_pos);
+    return size;
+}
+
+int Tape::get_cur_pos() const {
+    return cur_pos;
+}
+
+void write_file(Tape &tape, std::ofstream &out) {
+    int x;
+    tape.file.seekp(0);
+    while (tape.file >> x) {
+        out << x << " ";
+    }
+    tape.file.clear();
+    tape.file.seekp(tape.cur_pos);
 }
