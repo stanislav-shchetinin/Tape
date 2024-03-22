@@ -14,9 +14,12 @@ private:
     const Config config;
     int cur_pos{};
     std::fstream file;
+    std::string file_name;
 public:
     Tape(const Config& config,
          const std::string& tape_file);
+    Tape(const Tape& other);
+    Tape& operator=(const Tape& tape) = delete;
     int read();
     void write(int);
     void shift_pos_left();

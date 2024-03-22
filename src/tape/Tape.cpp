@@ -8,7 +8,7 @@
 int Tape::tapes_count = 0;
 
 Tape::Tape(const Config& config,
-     const std::string& tape_file): config(config) {
+     const std::string& tape_file): config(config), file_name(tape_file) {
     ++tapes_count;
     std::ifstream from(tape_file);
     std::string name_tape_file = "../tmp/" + std::to_string(tapes_count);
@@ -28,6 +28,14 @@ Tape::Tape(const Config& config,
 
     file.seekp(0);
 
+}
+
+Tape::Tape(const Tape &other)
+        : config(other.config)
+        , cur_pos(other.cur_pos)
+        , file(other.file_name)
+        , file_name(other.file_name) {
+    file.seekp(cur_pos);
 }
 
 void Tape::shift_pos_left() {
