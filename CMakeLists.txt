@@ -4,7 +4,16 @@ project(Yadro)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=leak,address -Wall -Wextra -Werror -Wpedantic")
 
-include_directories(${CMAKE_SOURCE_DIR}/libs ${CMAKE_SOURCE_DIR}/src/tape ${CMAKE_SOURCE_DIR}/src/config)
+include_directories(${CMAKE_SOURCE_DIR}/libs)
+
+file(GLOB SUBDIRS "src/*")
+
+foreach(dir ${SUBDIRS})
+    if(IS_DIRECTORY ${dir})
+        include_directories(${dir})
+    endif()
+endforeach()
+
 add_executable(Yadro main.cpp
         src/config/config.h
         src/config/config.cpp

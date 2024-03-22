@@ -14,6 +14,8 @@ private:
     Tape tape_out;
     std::vector<int> ram;
     const Config config_add;
+
+    static void two_point_merge(std::vector <int>&, size_t, Tape&, int&, Tape&, int&);
 public:
     TapeSort(const Tape& tape_in,
              const Tape& tape_out,
