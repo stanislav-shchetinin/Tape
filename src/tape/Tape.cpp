@@ -116,7 +116,12 @@ void Tape::write(int x) {
 }
 
 void Tape::rewind() {
-    op_time += config.tape_rewind_delay;
+
+    if (config.tape_rewind_delay > config.tape_shift_delay * cur_pos) {
+        op_time += config.tape_shift_delay * cur_pos;
+    } else {
+        op_time += config.tape_rewind_delay;
+    }
     file.clear();
     file.seekp(0);
     cur_pos = 0;
