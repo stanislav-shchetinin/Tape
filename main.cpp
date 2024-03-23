@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
 
     std::vector<int> ram(M / INT_COUNT_BYTES);
 
-    Config config = read_config_file(config_file);
+    Config config = read_config_file("../" + config_file);
     Tape tape_in(config, "../" + input_file);
     Tape tape_out(config, tape_in.get_len());
 

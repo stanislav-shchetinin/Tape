@@ -37,6 +37,7 @@ libs
 *.exe
 *.out
 !files/output.out
+!tests/output.out
 *.app
 *.i*86
 *.x86_64
