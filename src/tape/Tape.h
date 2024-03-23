@@ -18,6 +18,7 @@ private:
     mutable std::fstream file;
     std::string file_name;
     const int num_tape;
+    mutable int op_time{};
 
     explicit Tape(const Config& config);
 public:
@@ -33,6 +34,8 @@ public:
     void shift_pos_left();
     void shift_pos_right();
     void rewind();
+    int get_op_time() const;
+    void reset_op_time() const;
     friend void write_file(Tape&, std::ofstream&);
     ~Tape() {
         file.close();

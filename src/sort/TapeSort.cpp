@@ -14,7 +14,7 @@ TapeSort::TapeSort(const Tape& tape_in,
         , config_add(config_add) {}
 
 
-void TapeSort::two_point_merge(std::vector <int>& ram,
+void two_point_merge(std::vector <int>& ram,
                      size_t size_ram,
                      Tape& tape_read, int& size_tape_read,
                      Tape& tape_write, int& size_tape_write) {
@@ -57,9 +57,14 @@ void TapeSort::two_point_merge(std::vector <int>& ram,
     }
 }
 
-void TapeSort::sort(const std::string& output_name) {
+int TapeSort::sort(const std::string& output_name) {
 
     Tape tape_add(config_add, tape_in.get_len());
+
+    tape_add.reset_op_time();
+    tape_in.reset_op_time();
+    tape_out.reset_op_time();
+
     size_t last_pos = 0;
     size_t cnt_num = tape_in.get_len() / OFFSET;
     bool is_add = true;
@@ -90,6 +95,8 @@ void TapeSort::sort(const std::string& output_name) {
     } else {
         write_file(tape_add, out);
     }
+
+    return tape_add.get_op_time() + tape_in.get_op_time() + tape_out.get_op_time();
 
 }
 

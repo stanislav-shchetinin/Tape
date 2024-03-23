@@ -7,7 +7,7 @@ int Tape::tapes_count = 0;
 
 Tape::Tape(const Config& config)
         : config(config)
-        , num_tape(++tapes_count){
+        , num_tape(++tapes_count) {
 
     std::string name_tape_file = "../tmp/" + std::to_string(tapes_count);
     file_name = name_tape_file;
@@ -52,6 +52,7 @@ Tape::Tape(const Tape &other)
 }
 
 void Tape::shift_pos_left() {
+    op_time += config.tape_shift_delay;
     if (cur_pos == 0) return;
     bool is_digit = false;
     for (file.seekp(--cur_pos); cur_pos > 0; --cur_pos) {
@@ -72,6 +73,7 @@ void Tape::shift_pos_left() {
 }
 
 void Tape::shift_pos_right() {
+    op_time += config.tape_shift_delay;
     bool is_space = false;
     int old_pos = cur_pos;
     for (; file.peek() != EOF; ++cur_pos) {
@@ -94,7 +96,8 @@ void Tape::shift_pos_right() {
     file.seekp(cur_pos);
 }
 
-int Tape::read() const{
+int Tape::read() const {
+    op_time += config.read_delay;
     int x;
     file >> x;
     file.clear();
@@ -103,6 +106,7 @@ int Tape::read() const{
 }
 
 void Tape::write(int x) {
+    op_time += config.recording_delay;
     std::string spaces(OFFSET, ' ');
     file << spaces;
     file.seekp(cur_pos);
@@ -112,12 +116,13 @@ void Tape::write(int x) {
 }
 
 void Tape::rewind() {
+    op_time += config.tape_rewind_delay;
     file.clear();
     file.seekp(0);
     cur_pos = 0;
 }
 
-size_t Tape::get_len() const{
+size_t Tape::get_len() const {
     file.seekg(0, std::ios_base::end);
     size_t size = file.tellg();
     file.clear();
@@ -137,4 +142,12 @@ void write_file(Tape &tape, std::ofstream &out) {
     }
     tape.file.clear();
     tape.file.seekp(tape.cur_pos);
+}
+
+int Tape::get_op_time() const {
+    return op_time;
+}
+
+void Tape::reset_op_time() const {
+    op_time = 0;
 }
