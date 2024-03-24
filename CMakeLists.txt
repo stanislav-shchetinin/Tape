@@ -21,6 +21,7 @@ add_executable(Yadro main.cpp
         src/tape/Tape.h
         src/sort/TapeSort.cpp
         src/sort/TapeSort.h
+        src/tape/ITape.h
 )
 
 include(FetchContent)
@@ -45,6 +46,7 @@ add_executable(
         src/tape/Tape.h
         src/sort/TapeSort.cpp
         src/sort/TapeSort.h
+        src/tape/ITape.h
 )
 target_link_libraries(
         tests
