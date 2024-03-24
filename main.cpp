@@ -4,8 +4,6 @@
 #include "Tape.h"
 #include "TapeSort.h"
 
-#define INT_COUNT_BYTES 4
-
 void argc_check(int argc) {
     if (argc != 4) {
         throw std::invalid_argument("The arguments for running the program should look like:\n"
@@ -16,12 +14,12 @@ void argc_check(int argc) {
 int main(int argc, char* argv[]) {
 
     argc_check(argc);
-    const size_t M = 4 * INT_COUNT_BYTES;
+    const size_t M = 4 * sizeof(int);
     std::string input_file = argv[1];
     std::string output_file = argv[2];
     std::string config_file = argv[3];
 
-    std::vector<int> ram(M / INT_COUNT_BYTES);
+    std::vector<int> ram(M / sizeof(int));
 
     Config config = read_config_file("../" + config_file);
     Tape tape_in(config, "../" + input_file);

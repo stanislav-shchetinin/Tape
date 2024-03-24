@@ -26,7 +26,7 @@ public:
     Tape(const Config& config,
          const std::string& tape_file);
     Tape(const Config& config, size_t n);
-    Tape(const Tape& other); //=delete ??
+    Tape(const Tape& other);
     Tape& operator=(const Tape& tape) = delete;
     size_t get_len() const;
     int get_cur_pos() const;
