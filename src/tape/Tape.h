@@ -28,6 +28,8 @@ public:
     Tape(const Config& config, size_t n);
     Tape(const Tape& other);
     Tape& operator=(const Tape& tape) = delete;
+    Tape(Tape&& tape)  noexcept = default;
+    Tape& operator=(Tape&& tape) = delete;
     size_t get_len() const;
     int get_cur_pos() const;
     int read() const override;
